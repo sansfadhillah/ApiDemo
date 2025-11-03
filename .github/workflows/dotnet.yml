@@ -22,3 +22,10 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
+---
+
+📌 **Langkah selanjutnya:**
+1. Di folder `~/dev/dotnet-demo/ApiDemo`, buka file lama:
+   ```bash
+   nano README.md
