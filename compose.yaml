@@ -9,5 +9,26 @@ services:
       - "5432:5432"
     volumes:
       - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d apidemo"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      # Koneksi DB dikirim via ENV (dibaca di Program.cs)
+      POSTGRES_CONNECTION: Host=db;Port=5432;Database=apidemo;Username=postgres;Password=postgres
+    ports:
+      - "5184:8080"
+    # opsi: jika mau lihat log colored output
+    tty: true
+
 volumes:
   dbdata:
